@@ -4,6 +4,7 @@
     import sys
 
 #Ensure required libraries are installed
+
     def install_requirements():
         try:
             subprocess.check_call([sys.executable, '-m', 'pip', 'install', 
@@ -14,6 +15,7 @@
             st.error(f"Error installing requirements: {e}")
 
 #Import required libraries
+
     from langchain.chains import RetrievalQA
     from langchain_community.document_loaders import PyMuPDFLoader
     from langchain_community.llms import Ollama
