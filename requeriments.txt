@@ -1,0 +1,11 @@
+langchain
+langchain_community
+langchain-openai
+scikit-learn
+langchain-ollama
+pymupdf
+langchain_huggingface
+faiss-gpu
+streamlit
+
+
