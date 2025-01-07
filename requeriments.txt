@@ -1,11 +1,26 @@
-langchain
-langchain_community
-langchain-openai
-scikit-learn
-langchain-ollama
-pymupdf
-langchain_huggingface
-faiss-gpu
-streamlit
+# Core dependencies
+streamlit>=1.29.0
+langchain>=0.1.0
+langchain-community>=0.0.10
+langchain-huggingface>=0.0.5
+
+# Document processing
+pymupdf>=1.23.0
+python-magic>=0.4.27
+python-magic-bin>=0.4.14; sys_platform == 'win32'
+
+# Vector store
+faiss-cpu>=1.7.4
+
+# Embeddings and LLM
+sentence-transformers>=2.2.2
+huggingface-hub>=0.19.0
+
+# LLM Integration
+ollama>=0.1.6
+
+# Additional utilities
+typing-extensions>=4.5.0
+pydantic>=2.5.0
 
 
