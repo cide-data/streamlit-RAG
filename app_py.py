@@ -10,11 +10,13 @@ Original file is located at
 
 import streamlit as st
 import os
-from langchain.chains import RetrievalQA
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_community.llms import Ollama
 from langchain_community.vectorstores import FAISS
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 
 class RAGApp:
@@ -52,17 +54,33 @@ class RAGApp:
 
             if os.path.exists(index_path):
                 st.info(f"Loading FAISS index from {index_path}...")
-                db = FAISS.load_local(index_path, embeddings, allow_dangerous_deserialization=True)
+                db = FAISS.load_local(index_path, embeddings)
             else:
                 st.info("Creating new FAISS index...")
                 db = FAISS.from_documents(texts, embeddings)
                 db.save_local(index_path)
 
+            retriever = db.as_retriever()
+            
+            # Define prompt template
+            template = """Answer the question based only on the following context:
+            {context}
+            
+            Question: {question}
+            
+            Answer: """
+            
+            prompt = ChatPromptTemplate.from_template(template)
+            
+            # Initialize model
             llm = Ollama(model="llama2")
-
-            chain = RetrievalQA.from_chain_type(
-                llm=llm,
-                retriever=db.as_retriever()
+            
+            # Create chain
+            chain = (
+                {"context": retriever, "question": RunnablePassthrough()}
+                | prompt
+                | llm
+                | StrOutputParser()
             )
 
             return chain
@@ -97,9 +115,9 @@ class RAGApp:
             if user_question and st.session_state.chain:
                 with st.spinner("Generating response..."):
                     try:
-                        result = st.session_state.chain.invoke({"query": user_question})
+                        result = st.session_state.chain.invoke(user_question)
                         st.success("Answer:")
-                        st.write(result['result'])
+                        st.write(result)
                     except Exception as e:
                         st.error(f"Error generating response: {e}")
 
