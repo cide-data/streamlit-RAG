@@ -1,0 +1,4 @@
+vector_store/
+temp_uploaded.pdf
+__pycache__/
+*.pyc
