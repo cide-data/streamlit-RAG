@@ -1,16 +1,16 @@
 # Core dependencies
 streamlit>=1.31.0
-langchain-core==0.1.15
-langchain-community==0.0.16
-langchain==0.1.5
+langchain-core>=0.1.15
+langchain-community>=0.0.16
+langchain>=0.1.5
 
 # Document processing
-PyMuPDF==1.23.8
-python-magic==0.4.27
-python-magic-bin==0.4.14; sys_platform == 'win32'
+PyMuPDF>=1.23.8
+python-magic>=0.4.27
+python-magic-bin>=0.4.14; sys_platform == 'win32'
 
 # Vector store
-faiss-cpu==1.7.4
+faiss-cpu>=1.7.4
 
 # Embeddings
 sentence-transformers>=2.2.2
@@ -18,8 +18,8 @@ transformers>=4.30.0
 torch>=2.0.0
 
 # Additional utilities
-typing-extensions==4.9.0
-pydantic==2.5.3
+typing-extensions>=4.9.0
+pydantic>=2.5.3
 
 # Local LLM
-ollama==0.1.6
+ollama>=0.1.6
